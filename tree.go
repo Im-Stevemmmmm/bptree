@@ -38,7 +38,7 @@ func (t *Tree) Insert(key int, value []byte) error {
 	var pointer *Record
 	var leaf *Node
 
-	if _, err := t.Find(key, false); err == nil {
+	if _, err := t.Find(key); err == nil {
 		return errors.New("key already exists")
 	}
 
@@ -51,7 +51,7 @@ func (t *Tree) Insert(key int, value []byte) error {
 		return t.startNewTree(key, pointer)
 	}
 
-	leaf = t.findLeaf(key, false)
+	leaf = t.findLeaf(key)
 
 	if leaf.NumKeys < order-1 {
 		insertIntoLeaf(leaf, key, pointer)
@@ -61,9 +61,9 @@ func (t *Tree) Insert(key int, value []byte) error {
 	return t.insertIntoLeafAfterSplitting(leaf, key, pointer)
 }
 
-func (t *Tree) Find(key int, verbose bool) (*Record, error) {
+func (t *Tree) Find(key int) (*Record, error) {
 	i := 0
-	c := t.findLeaf(key, verbose)
+	c := t.findLeaf(key)
 	if c == nil {
 		return nil, errors.New("key not found")
 	}
@@ -81,8 +81,8 @@ func (t *Tree) Find(key int, verbose bool) (*Record, error) {
 	return r, nil
 }
 
-func (t *Tree) FindAndPrint(key int, verbose bool) {
-	r, err := t.Find(key, verbose)
+func (t *Tree) FindAndPrint(key int) {
+	r, err := t.Find(key)
 
 	if err != nil || r == nil {
 		fmt.Printf("Record not found under key %d.\n", key)
@@ -91,12 +91,12 @@ func (t *Tree) FindAndPrint(key int, verbose bool) {
 	}
 }
 
-func (t *Tree) FindAndPrintRange(keyStart, keyEnd int, verbose bool) {
+func (t *Tree) FindAndPrintRange(keyStart, keyEnd int) {
 	var i int
 	arraySize := keyEnd - keyStart + 1
 	returnedKeys := make([]int, arraySize)
 	returnedPointers := make([]interface{}, arraySize)
-	numFound := t.findRange(keyStart, keyEnd, verbose, returnedKeys, returnedPointers)
+	numFound := t.findRange(keyStart, keyEnd, returnedKeys, returnedPointers)
 	if numFound == 0 {
 		fmt.Println("None found,")
 	} else {
@@ -179,11 +179,11 @@ func (t *Tree) PrintLeaves() {
 }
 
 func (t *Tree) Delete(key int) error {
-	keyRecord, err := t.Find(key, false)
+	keyRecord, err := t.Find(key)
 	if err != nil {
 		return err
 	}
-	keyLeaf := t.findLeaf(key, false)
+	keyLeaf := t.findLeaf(key)
 	if keyRecord != nil && keyLeaf != nil {
 		t.deleteEntry(keyLeaf, key, keyRecord)
 	}
@@ -247,11 +247,11 @@ func (t *Tree) pathToRoot(child *Node) int {
 	return length
 }
 
-func (t *Tree) findRange(keyStart, keyEnd int, verbose bool, returnedKeys []int, returnedPointers []interface{}) int {
+func (t *Tree) findRange(keyStart, keyEnd int, returnedKeys []int, returnedPointers []interface{}) int {
 	var i int
 	numFound := 0
 
-	n := t.findLeaf(keyStart, verbose)
+	n := t.findLeaf(keyStart)
 	if n == nil {
 		return 0
 	}
@@ -270,23 +270,13 @@ func (t *Tree) findRange(keyStart, keyEnd int, verbose bool, returnedKeys []int,
 	return numFound
 }
 
-func (t *Tree) findLeaf(key int, verbose bool) *Node {
+func (t *Tree) findLeaf(key int) *Node {
 	i := 0
 	c := t.Root
 	if c == nil {
-		if verbose {
-			fmt.Printf("Empty tree.\n")
-		}
 		return c
 	}
 	for !c.IsLeaf {
-		if verbose {
-			fmt.Printf("[")
-			for i = 0; i < c.NumKeys-1; i++ {
-				fmt.Printf("%d ", c.Keys[i])
-			}
-			fmt.Printf("%d]", c.Keys[i])
-		}
 		i = 0
 		for i < c.NumKeys {
 			if key >= c.Keys[i] {
@@ -295,17 +285,7 @@ func (t *Tree) findLeaf(key int, verbose bool) *Node {
 				break
 			}
 		}
-		if verbose {
-			fmt.Printf("%d ->\n", i)
-		}
 		c, _ = c.Pointers[i].(*Node)
-	}
-	if verbose {
-		fmt.Printf("Leaf [")
-		for i = 0; i < c.NumKeys-1; i++ {
-			fmt.Printf("%d ", c.Keys[i])
-		}
-		fmt.Printf("%d] ->\n", c.Keys[i])
 	}
 	return c
 }
