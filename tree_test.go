@@ -23,7 +23,7 @@ func TestInsertNilRoot(t *testing.T) {
 		t.Errorf("%s", err)
 	}
 
-	r, err := tree.Find(key, false)
+	r, err := tree.Find(key)
 	if err != nil {
 		t.Errorf("%s\n", err)
 	}
@@ -48,7 +48,7 @@ func TestInsert(t *testing.T) {
 		t.Errorf("%s", err)
 	}
 
-	r, err := tree.Find(key, false)
+	r, err := tree.Find(key)
 	if err != nil {
 		t.Errorf("%s\n", err)
 	}
@@ -78,7 +78,7 @@ func TestInsertSameKeyTwice(t *testing.T) {
 		t.Errorf("expected error but got nil")
 	}
 
-	r, err := tree.Find(key, false)
+	r, err := tree.Find(key)
 	if err != nil {
 		t.Errorf("%s\n", err)
 	}
@@ -111,7 +111,7 @@ func TestInsertSameValueTwice(t *testing.T) {
 		t.Errorf("%s", err)
 	}
 
-	r, err := tree.Find(key, false)
+	r, err := tree.Find(key)
 	if err != nil {
 		t.Errorf("%s\n", err)
 	}
@@ -132,7 +132,7 @@ func TestInsertSameValueTwice(t *testing.T) {
 func TestFindNilRoot(t *testing.T) {
 	tree := NewTree()
 
-	r, err := tree.Find(1, false)
+	r, err := tree.Find(1)
 	if err == nil {
 		t.Errorf("expected error and got nil")
 	}
@@ -153,7 +153,7 @@ func TestFind(t *testing.T) {
 		t.Errorf("%s", err)
 	}
 
-	r, err := tree.Find(key, false)
+	r, err := tree.Find(key)
 	if err != nil {
 		t.Errorf("%s\n", err)
 	}
@@ -177,7 +177,7 @@ func TestDeleteNilTree(t *testing.T) {
 		t.Errorf("expected error and got nil")
 	}
 
-	r, err := tree.Find(key, false)
+	r, err := tree.Find(key)
 	if err == nil {
 		t.Errorf("expected error and got nil")
 	}
@@ -198,7 +198,7 @@ func TestDelete(t *testing.T) {
 		t.Errorf("%s", err)
 	}
 
-	r, err := tree.Find(key, false)
+	r, err := tree.Find(key)
 	if err != nil {
 		t.Errorf("%s\n", err)
 	}
@@ -216,7 +216,7 @@ func TestDelete(t *testing.T) {
 		t.Errorf("%s\n", err)
 	}
 
-	r, err = tree.Find(key, false)
+	r, err = tree.Find(key)
 	if err == nil {
 		t.Errorf("expected error and got nil")
 	}
@@ -237,7 +237,7 @@ func TestDeleteNotFound(t *testing.T) {
 		t.Errorf("%s", err)
 	}
 
-	r, err := tree.Find(key, false)
+	r, err := tree.Find(key)
 	if err != nil {
 		t.Errorf("%s\n", err)
 	}
@@ -255,7 +255,7 @@ func TestDeleteNotFound(t *testing.T) {
 		t.Errorf("expected error and got nil")
 	}
 
-	r, err = tree.Find(key+1, false)
+	r, err = tree.Find(key + 1)
 	if err == nil {
 		t.Errorf("expected error and got nil")
 	}
@@ -288,7 +288,7 @@ func TestMultiInsertSingleDelete(t *testing.T) {
 		t.Errorf("%s", err)
 	}
 
-	r, err := tree.Find(key, false)
+	r, err := tree.Find(key)
 	if err != nil {
 		t.Errorf("%s\n", err)
 	}
@@ -306,7 +306,7 @@ func TestMultiInsertSingleDelete(t *testing.T) {
 		t.Errorf("%s\n", err)
 	}
 
-	r, err = tree.Find(key, false)
+	r, err = tree.Find(key)
 	if err == nil {
 		t.Errorf("expected error and got nil")
 	}
@@ -343,7 +343,7 @@ func TestMultiInsertMultiDelete(t *testing.T) {
 		t.Errorf("%s", err)
 	}
 
-	r, err := tree.Find(key, false)
+	r, err := tree.Find(key)
 	if err != nil {
 		t.Errorf("%s\n", err)
 	}
@@ -361,7 +361,7 @@ func TestMultiInsertMultiDelete(t *testing.T) {
 		t.Errorf("%s\n", err)
 	}
 
-	r, err = tree.Find(key, false)
+	r, err = tree.Find(key)
 	if err == nil {
 		t.Errorf("expected error and got nil")
 	}
@@ -370,7 +370,7 @@ func TestMultiInsertMultiDelete(t *testing.T) {
 		t.Errorf("returned struct after delete - %v \n", r)
 	}
 
-	r, err = tree.Find(key+3, false)
+	r, err = tree.Find(key + 3)
 	if err != nil {
 		t.Errorf("%s\n", err)
 	}
@@ -388,7 +388,7 @@ func TestMultiInsertMultiDelete(t *testing.T) {
 		t.Errorf("%s\n", err)
 	}
 
-	r, err = tree.Find(key+3, false)
+	r, err = tree.Find(key + 3)
 	if err == nil {
 		t.Errorf("expected error and got nil")
 	}

@@ -37,7 +37,7 @@ func BenchmarkInsertFind(b *testing.B) {
 
 	// find one by one
 	for n := 0; n < b.N; n++ {
-		_, err = t.Find(n, false)
+		_, err = t.Find(n)
 		if err != nil {
 			fmt.Printf("error: %s\n\n", err)
 		}

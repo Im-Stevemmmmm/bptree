@@ -1,5 +1,14 @@
 package bptree
 
+/*
+ * Copyright belongs to collinglass under the GNU General Public License v3.0
+ * Modified by Im-Stevemmmmm on 4 March 2021
+ *
+ * Changes:
+ * - Removed verbose message output parameters
+ * - Formatted file according to go fmt
+ */
+
 import (
 	"errors"
 	"fmt"
