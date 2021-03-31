@@ -199,21 +199,6 @@ func (t *Tree) Delete(key int) error {
 	return nil
 }
 
-//
-//
-//
-//
-//
-//
-//
-// Private Functions
-//
-//
-//
-//
-//
-//
-//
 func enqueue(newNode *Node) {
 	var c *Node
 	if queue == nil {
